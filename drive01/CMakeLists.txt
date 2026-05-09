@@ -15,12 +15,12 @@
 cmake_minimum_required(VERSION 3.22)
 
 # TODO: Nome e versão do plugin
-project(ConvReverbPlugin VERSION 0.0.1)
+project(Drive01 VERSION 0.0.1)
 
 # Caminho de instalacao do JUCE
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message("Building on Windows")
-	list(APPEND CMAKE_PREFIX_PATH "C:/install/JUCE")
+	list(APPEND CMAKE_PREFIX_PATH "C:/JUCE/install")
 else()
     message("Building on Unix-like system")
 	list(APPEND CMAKE_PREFIX_PATH "~/JUCE") 
@@ -46,7 +46,7 @@ juce_add_plugin(${PROJECT_NAME}
 	PRODUCT_NAME ${PROJECT_NAME}
 
 	# Nome do criador do plugin
-	COMPANY_NAME "mespaola"
+	COMPANY_NAME "cariola_roveran"
 
 	# Outras opcoes validas:
 	# PLUGIN_MANUFACTURER_CODE mc0   # AU/GarageBand. 4 caracters, o primeiro maiusculo, o resto minusculo

@@ -17,15 +17,13 @@
 #include <cmath>
 #include <functional>
 
-#include "Preset.h"
-
 // TODO: Namespace onde os parametros do plugin sao declarados
 // Para adicionar um parametro, adicionar uma nova linha PARAMETER_ID(<nome_parametro>)
 // dentro do bloco #define/#undef
 
 namespace ParamID {
     #define PARAMETER_ID(str) const juce::ParameterID str(#str, 1);
-    PARAMETER_ID(wet_dry)
+    PARAMETER_ID(wet_dry_rev)
     #undef PARAMETER_ID
 }
 
@@ -80,7 +78,7 @@ public:
     //==============================================================================
     // TODO: Parametros ajustaveis do plugin:
     //------------------------------------------------------------------------------
-    float wet_dry_mix_;
+    float wet_dry_rev_;
 
     void loadImpulseResponse(juce::File file);
 private:
@@ -89,20 +87,15 @@ private:
     //------------------------------------------------------------------------------
     // Arvore de parametros
     juce::AudioProcessorValueTreeState apvts { *this, nullptr, "Parameters", createParameterLayout() };
-    // Lista de presets
-    std::vector<Preset> presets;
-    // Indice do preset atual
-    int currentProgram;
     // Indica se algum parametro mudou
     std::atomic<bool> parametersChanged { false };   
     
     // Indica se IR mudou
-    std::atomic<bool> irChanged { false };    
+    std::atomic<bool> irRevChanged { false };    
 
     void valueTreePropertyChanged(juce::ValueTree&, const juce::Identifier&) override;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     void update();
-    void createPrograms();
 
     template<typename T>
     inline static void castParameter(juce::AudioProcessorValueTreeState& apvts, const juce::ParameterID& id, T& destination);
@@ -117,7 +110,7 @@ private:
     juce::dsp::Convolution convolution;
     juce::dsp::DryWetMixer<float> mixer;
 
-    juce::AudioParameterFloat* wetDryMixParam;
+    juce::AudioParameterFloat* wetDryRevParam;
 
     // Suavizador de trocas de parametros
     juce::LinearSmoothedValue<float> gainSmoother;    

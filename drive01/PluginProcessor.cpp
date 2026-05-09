@@ -15,13 +15,12 @@ MyAudioProcessor::MyAudioProcessor()
         .withOutput ("Output", juce::AudioChannelSet::stereo(), true))
 {
     //TODO: inicializacao dos parametros do plugin
-    wet_dry_mix_ = 0.5f; //50%
+    wet_dry_rev_ = 0.5f; //50%
 
-    castParameter(apvts, ParamID::wet_dry, wetDryMixParam);
+    castParameter(apvts, ParamID::wet_dry_rev, wetDryRevParam);
     
     apvts.state.addListener(this);
-    
-    createPrograms();
+
     setCurrentProgram(0);
 }
 
@@ -48,7 +47,7 @@ void MyAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     
     mixer.prepare(spec);
     mixer.setMixingRule(juce::dsp::DryWetMixingRule::balanced);
-    mixer.setWetMixProportion(wet_dry_mix_);
+    mixer.setWetMixProportion(wet_dry_rev_);
 }
 
 // TODO: funcao que processa audio em loop - AUDIO THREAD!!!
@@ -80,10 +79,10 @@ void MyAudioProcessor::releaseResources() {}
 // TODO: atualiza parametros - AUDIO THREAD!!!
 void MyAudioProcessor::update() 
 {
-    gainSmoother.setCurrentAndTargetValue(wetDryMixParam->get());
-    wet_dry_mix_ = wetDryMixParam->get();
+    gainSmoother.setCurrentAndTargetValue(wetDryRevParam->get());
+    wet_dry_rev_ = wetDryRevParam->get();
 
-    mixer.setWetMixProportion(wet_dry_mix_);
+    mixer.setWetMixProportion(wet_dry_rev_);
 }
 
 void MyAudioProcessor::loadImpulseResponse(juce::File file)
@@ -115,29 +114,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout MyAudioProcessor::createPara
 // Gestao de presets (somente funcoes que variam por plugin. Ver Common.h)
 //------------------------------------------------------------------------------
 
-// TODO: Cria presets iniciais
-void MyAudioProcessor::createPrograms()
-{
-    presets.emplace_back(Preset("default", {0.0f}));
-}
-
 // TODO: Define preset atual
 void MyAudioProcessor::setCurrentProgram (int index)
 {
-    currentProgram = index;
-    
-    juce::RangedAudioParameter *params[NUM_PARAMS] = {
-        wetDryMixParam
-    };
-
-    const Preset& preset = presets[(unsigned int)index];
-
-    for (long unsigned int i = 0; i < NUM_PARAMS; ++i) 
-    {
-        params[i]->setValueNotifyingHost(params[i]->convertTo0to1(preset.param[i]));
-    }
-    
-    reset();
+    juce::ignoreUnused(index);
 }
 
 //==============================================================================

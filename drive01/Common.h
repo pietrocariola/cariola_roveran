@@ -32,19 +32,20 @@ juce::AudioProcessorEditor* MyAudioProcessor::createEditor()
 // Quantidade de presets
 int MyAudioProcessor::getNumPrograms()
 {
-    return int(presets.size());
+    return 0;
 }
 
 // Indice do preset atual
 int MyAudioProcessor::getCurrentProgram()
 {
-    return currentProgram;
+    return 0;
 }
 
 // Nome do preset
 const juce::String MyAudioProcessor::getProgramName (int index)
 {
-    return {presets[(unsigned int)index].name};
+    juce::ignoreUnused(index);
+    return "no name";
 }
 
 // Altera nome do preset

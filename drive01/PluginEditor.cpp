@@ -7,16 +7,16 @@ MyAudioProcessorEditor::MyAudioProcessorEditor (MyAudioProcessor& p, juce::Audio
     // Para evitar warnings
     juce::ignoreUnused(audioProcessor);
     
-    loadButton.setButtonText("Load IR");
-    loadButton.onClick = [this] { loadIR(); };
+    loadRevTxtBtn.setButtonText("Load Reverb IR");
+    loadRevTxtBtn.onClick = [this] { loadRevIR(); };
     
-    addAndMakeVisible(loadButton);
+    addAndMakeVisible(loadRevTxtBtn);
 
-    wetDryLabel.setText("Dry/Wet Mix", juce::dontSendNotification);
-    addAndMakeVisible(wetDryLabel);
+    wetDryRevLabel.setText("Dry/Wet Mix", juce::dontSendNotification);
+    addAndMakeVisible(wetDryRevLabel);
  
-    addAndMakeVisible(wetDrySlider);
-    wetDryAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(apvts, "wet_dry", wetDrySlider));
+    addAndMakeVisible(wetDryRevSlider);
+    wetDryAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(apvts, "wet_dry_rev", wetDryRevSlider));
 
     // Define o tamanho do editor
     setSize (400, 150);
@@ -38,12 +38,12 @@ void MyAudioProcessorEditor::paint (juce::Graphics& g)
 // Funcao em que sao definidas posicoes customizadas dos elementos
 void MyAudioProcessorEditor::resized() 
 {
-    wetDryLabel.setBounds(10, getHeight() / 10 + 10, 100, 20);
-    wetDrySlider.setBounds(110, getHeight() / 10 + 10, 280, 20);
-    loadButton.setBounds(10, getHeight() / 10 + 40, 100, 20);
+    wetDryRevLabel.setBounds(10, getHeight() / 10 + 10, 100, 20);
+    wetDryRevSlider.setBounds(110, getHeight() / 10 + 10, 280, 20);
+    loadRevTxtBtn.setBounds(10, getHeight() / 10 + 40, 100, 20);
 }
 
-void MyAudioProcessorEditor::loadIR()
+void MyAudioProcessorEditor::loadRevIR()
 {
     chooser = std::make_unique<juce::FileChooser>(
         "Select IR file",

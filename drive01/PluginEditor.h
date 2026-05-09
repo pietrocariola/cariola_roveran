@@ -20,13 +20,13 @@ private:
     MyAudioProcessor& audioProcessor;
     juce::AudioProcessorValueTreeState& apvts;
 
-    juce::Label wetDryLabel;
-    juce::Slider wetDrySlider;
+    juce::Label wetDryRevLabel;
+    juce::Slider wetDryRevSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> wetDryAttachment;
 
     std::unique_ptr<juce::FileChooser> chooser;
-    juce::TextButton loadButton;
-    void loadIR();
+    juce::TextButton loadRevTxtBtn;
+    void loadRevIR();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MyAudioProcessorEditor)
 };
